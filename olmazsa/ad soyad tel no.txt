@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn1"
+        android:text="Arkadaş 1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn2"
+        android:text="Arkadaş 2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn3"
+        android:text="Arkadaş 3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+-----------------------------------------------------
+2. xml detay
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvAd"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tvSoyad"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tvOkulNo"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tvTelefon"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+--------------------------------------------------------
+main
+package com.example.sayfa263sirasizde;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.example.sayfa263sirasizde.databinding.ActivityMainBinding;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ActivityMainBinding binding;
+
+    // 3 kişi bilgisi
+    String ad1 = "Ahmet";
+    String soyad1 = "Yılmaz";
+    String okulNo1 = "1001";
+    String tel1 = "05551111111";
+
+    String ad2 = "Mehmet";
+    String soyad2 = "Kaya";
+    String okulNo2 = "1002";
+    String tel2 = "05552222222";
+
+    String ad3 = "Ayşe";
+    String soyad3 = "Demir";
+    String okulNo3 = "1003";
+    String tel3 = "05553333333";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+
+        binding.btn1.setOnClickListener(v -> {
+            veriGonder(ad1, soyad1, okulNo1, tel1);
+        });
+
+
+        binding.btn2.setOnClickListener(v -> {
+            veriGonder(ad2, soyad2, okulNo2, tel2);
+        });
+
+        binding.btn3.setOnClickListener(v -> {
+            veriGonder(ad3, soyad3, okulNo3, tel3);
+        });
+    }
+
+    private void veriGonder(String ad, String soyad, String okulNo, String tel){
+
+        Singleton singleton = Singleton.getInstance();
+
+        singleton.setAd(ad);
+        singleton.setSoyad(soyad);
+        singleton.setOkulNo(okulNo);
+        singleton.setTelefon(tel);
+
+        Intent intent = new Intent(MainActivity.this, DetayActivity.class);
+        startActivity(intent);
+    }
+}
+------------------------------------------------------------------------
+Detay
+package com.example.sayfa263sirasizde;
+
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.sayfa263sirasizde.databinding.ActivityDetayBinding;
+import android.os.Bundle;
+
+public class DetayActivity extends AppCompatActivity {
+
+    private ActivityDetayBinding binding;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        binding = ActivityDetayBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        Singleton singleton = Singleton.getInstance();
+
+        binding.tvAd.setText("Ad: " + singleton.getAd());
+        binding.tvSoyad.setText("Soyad: " + singleton.getSoyad());
+        binding.tvOkulNo.setText("Okul No: " + singleton.getOkulNo());
+        binding.tvTelefon.setText("Telefon: " + singleton.getTelefon());
+    }
+}
+-----------------------------------------------------------------------------------
+package com.example.sayfa263sirasizde;
+
+public class Singleton {
+
+    private String ad;
+    private String soyad;
+    private String okulNo;
+    private String telefon;
+
+    private static Singleton singleton;
+
+    private Singleton(){}
+
+    public static Singleton getInstance(){
+        if (singleton == null){
+            singleton = new Singleton();
+        }
+        return singleton;
+    }
+
+    // Getter - Setter
+    public String getAd() { return ad; }
+    public void setAd(String ad) { this.ad = ad; }
+
+    public String getSoyad() { return soyad; }
+    public void setSoyad(String soyad) { this.soyad = soyad; }
+
+    public String getOkulNo() { return okulNo; }
+    public void setOkulNo(String okulNo) { this.okulNo = okulNo; }
+
+    public String getTelefon() { return telefon; }
+    public void setTelefon(String telefon) { this.telefon = telefon; }
+}

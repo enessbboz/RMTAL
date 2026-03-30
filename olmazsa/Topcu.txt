@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textViewMesaj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mesaj" />
+
+        <Button
+            android:id="@+id/buttonAsker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Asker Ateş Et" />
+
+        <Button
+            android:id="@+id/buttonTankci"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Topcu" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+-------------------------------------------------------
+package com.example.ss206;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+
+    public Asker asker;
+    public Topcu tankci;
+    String mesaj = "";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        asker = new Asker();
+        tankci = new Topcu();
+
+        TextView textViewMesaj = findViewById(R.id.textViewMesaj);
+        Button buttonAsker = findViewById(R.id.buttonAsker);
+        Button buttonTankci = findViewById(R.id.buttonTankci);
+
+        buttonAsker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mesaj = asker.atesEt();
+                textViewMesaj.setText(mesaj);
+            }
+        });
+
+        buttonTankci.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mesaj = tankci.atesEt();
+                textViewMesaj.setText(mesaj);
+            }
+        });
+    }
+}
+------------------------------------------------------------------------------
+package com.example.ss206;
+public class Asker {
+
+    public String atesEt(){
+        return "Asker ateş etti";
+    }
+
+}
+
+--------------------------------------------------------------
+package com.example.ss206;
+public class Topcu extends Asker {
+
+    @Override
+    public String atesEt() {
+        return "Topcu ateş etti";
+    }
+
+}

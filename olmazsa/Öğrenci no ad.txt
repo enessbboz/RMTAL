@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/etNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Öğrenci No"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/etAd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Öğrenci Adı"
+        android:inputType="textPersonName"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/btnEkle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Listeye Ekle"
+        android:layout_marginTop="10dp" />
+
+    <ListView
+        android:id="@+id/lvOgrenciler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="12dp"/>
+</LinearLayout>
+----------------------------------------------
+package com.example.ss214;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    private EditText etNo, etAd;
+    private Button btnEkle;
+    private ListView lvOgrenciler;
+
+    private ArrayList<Ogrenci> ogrenciListesi;
+    private ArrayAdapter<Ogrenci> adapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+        etNo = findViewById(R.id.etNo);
+        etAd = findViewById(R.id.etAd);
+        btnEkle = findViewById(R.id.btnEkle);
+        lvOgrenciler = findViewById(R.id.lvOgrenciler);
+
+
+        ogrenciListesi = new ArrayList<>();
+
+
+        adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                ogrenciListesi
+        );
+
+
+        lvOgrenciler.setAdapter(adapter);
+
+
+        btnEkle.setOnClickListener(v -> {
+            String no = etNo.getText().toString().trim();
+            String ad = etAd.getText().toString().trim();
+
+            if (no.isEmpty() || ad.isEmpty()) {
+                Toast.makeText(this, "No ve Ad boş bırakılamaz!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
+            Ogrenci yeni = new Ogrenci(no, ad);
+            ogrenciListesi.add(yeni);
+
+            adapter.notifyDataSetChanged();
+
+            etNo.setText("");
+            etAd.setText("");
+            etNo.requestFocus();
+        });
+    }
+}
+-------------------------------------------------------------------------------
+package com.example.ss214;
+public class Ogrenci {
+    private String numara;
+    private String ad;
+
+    public Ogrenci(String numara, String ad) {
+        this.numara = numara;
+        this.ad = ad;
+    }
+
+    public String getNumara() {
+        return numara;
+    }
+
+    public String getAd() {
+        return ad;
+    }
+
+    @Override
+    public String toString() {
+        return numara + " - " + ad;
+    }
+}

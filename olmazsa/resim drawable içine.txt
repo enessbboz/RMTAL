@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageViewGorsel"
+        android:layout_width="252dp"
+        android:layout_height="262dp"
+        android:layout_marginTop="159dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:id="@+id/textViewBilgi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="53dp"
+        android:layout_marginTop="33dp"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/imageViewGorsel"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewGorsel" />
+
+    <Button
+        android:id="@+id/buttonGeri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="119dp"
+        android:onClick="geriGelme"
+        android:text="Geri"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonIleri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="78dp"
+        android:layout_marginBottom="123dp"
+        android:onClick="ileriGitme"
+        android:text="İleri"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+----------------------------------------------------------------------
+package com.example.uyg11;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+
+import com.example.uyg11.databinding.ActivityMainBinding;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ActivityMainBinding binding;
+    ArrayList<Gorsel> gorselArrayList;
+    int seciliSiraNo;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        gorselArrayList = new ArrayList<>();
+
+        Gorsel a1 = new Gorsel("Ad:Hüseyin  \nSoyad: Alkan \nNo:59",1,R.drawable.resim1);
+        Gorsel a2 = new Gorsel("Ad:Samet  \nSoyad: Şahin \nNo:335 ",2,R.drawable.resim2);
+        Gorsel a3 = new Gorsel("Ad:Muhammed Ekrem  \nSoyad: Aydoğdu \nNo:370",3,R.drawable.resim3);
+        Gorsel a4 = new Gorsel("Ad:Salih Enes  \nSoyad: Boz \nNo:379",4,R.drawable.resim4);
+        Gorsel a5 = new Gorsel("Ad:Arda  \nSoyad: Metin \nNo:383",5,R.drawable.resim5);
+        Gorsel a6 = new Gorsel("Ad:Cesur  \nSoyad: İşsever \nNo:386",6,R.drawable.resim6);
+        Gorsel a7 = new Gorsel("Ad:Zafer Eymen  \nSoyad: Saykun \nNo:387",7,R.drawable.resim7);
+        Gorsel a8 = new Gorsel("Ad:Muhammet Emre  \nSoyad: Boztepe \nNo:388",8,R.drawable.resim8);
+        Gorsel a9 = new Gorsel("Ad:Mikail Emrah  \nSoyad: Boztepe \nNo:389",9,R.drawable.resim9);
+        Gorsel a10 = new Gorsel("Ad:Eren  \nSoyad: Can \nNo:391 ",10,R.drawable.resim10);
+        Gorsel a11 = new Gorsel("Ad:Yusuf Emre  \nSoyad: Kaya \nNo:394 ",12,R.drawable.resim11);
+        Gorsel a12 = new Gorsel("Ad:Ahmet  \nSoyad: Şen \nNo:395 ",13,R.drawable.resim12);
+
+
+        gorselArrayList.add(a1);
+        gorselArrayList.add(a2);
+        gorselArrayList.add(a3);
+        gorselArrayList.add(a4);
+        gorselArrayList.add(a5);
+        gorselArrayList.add(a6);
+        gorselArrayList.add(a7);
+        gorselArrayList.add(a8);
+        gorselArrayList.add(a9);
+        gorselArrayList.add(a10);
+        gorselArrayList.add(a11);
+        gorselArrayList.add(a12);
+
+
+        seciliSiraNo = 0;
+
+        gorselGoster();
+    }
+
+    public void ileriGitme(View view){
+
+        seciliSiraNo++;
+
+        if(seciliSiraNo >= gorselArrayList.size()){
+            seciliSiraNo = 0;
+        }
+
+        gorselGoster();
+    }
+
+    public void geriGelme(View view){
+
+        seciliSiraNo--;
+
+        if(seciliSiraNo < 0){
+            seciliSiraNo = gorselArrayList.size() - 1;
+        }
+
+        gorselGoster();
+    }
+
+    public void gorselGoster(){
+
+        binding.imageViewGorsel.setImageResource(gorselArrayList.get(seciliSiraNo).foto);
+        binding.textViewBilgi.setText("Bilgi:\n" + gorselArrayList.get(seciliSiraNo).bilgi);
+
+    }
+
+}
+-------------------------------------------------------------------------------------------------
+package com.example.uyg11;
+
+public class Gorsel {
+
+    String bilgi;
+    int siraNo;
+    int foto;
+
+    public Gorsel(String bilgi, int siraNo, int foto){
+        this.bilgi = bilgi;
+        this.siraNo = siraNo;
+        this.foto = foto;
+    }
+
+}

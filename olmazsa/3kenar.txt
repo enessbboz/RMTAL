@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Üçgen Türü Hesaplama"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
+
+        <EditText
+            android:id="@+id/edtKenar1"
+            android:layout_width="237dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="1. Kenar"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/edtKenar2"
+            android:layout_width="237dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="2. Kenar"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/edtKenar3"
+            android:layout_width="237dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:hint="3. Kenar"
+            android:inputType="numberDecimal" />
+
+        <Button
+            android:id="@+id/btnEskenar"
+            android:layout_width="236dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="Eşkenar Üçgen" />
+
+        <Button
+            android:id="@+id/btnIkizkenar"
+            android:layout_width="239dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="İkizkenar Üçgen" />
+
+        <Button
+            android:id="@+id/btnCesitkenar"
+            android:layout_width="242dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="Çeşitkenar Üçgen" />
+
+        <TextView
+            android:id="@+id/txtSonuc"
+            android:layout_width="243dp"
+            android:layout_height="wrap_content"
+            android:background="#EEEEEE"
+            android:padding="16dp"
+            android:text="Çevre:"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>
+-------------------------------------------------------------
+package com.example.ss188;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText edtKenar1, edtKenar2, edtKenar3;
+    Button btnEskenar, btnIkizkenar, btnCesitkenar;
+    TextView txtSonuc;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+        edtKenar1 = findViewById(R.id.edtKenar1);
+        edtKenar2 = findViewById(R.id.edtKenar2);
+        edtKenar3 = findViewById(R.id.edtKenar3);
+
+        btnEskenar = findViewById(R.id.btnEskenar);
+        btnIkizkenar = findViewById(R.id.btnIkizkenar);
+        btnCesitkenar = findViewById(R.id.btnCesitkenar);
+
+        txtSonuc = findViewById(R.id.txtSonuc);
+
+
+        btnEskenar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                double kenar = Double.parseDouble(edtKenar1.getText().toString());
+
+                Ucgen eskenarUcgen = new Ucgen(kenar);
+                txtSonuc.setText("Çevre: " + eskenarUcgen.cevreBul());
+            }
+        });
+
+
+        btnIkizkenar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                double kenar1 = Double.parseDouble(edtKenar1.getText().toString());
+                double kenar2 = Double.parseDouble(edtKenar2.getText().toString());
+
+                Ucgen ikizkenarUcgen = new Ucgen(kenar1, kenar2);
+                txtSonuc.setText("Çevre: " + ikizkenarUcgen.cevreBul());
+            }
+        });
+
+        btnCesitkenar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                double kenar1 = Double.parseDouble(edtKenar1.getText().toString());
+                double kenar2 = Double.parseDouble(edtKenar2.getText().toString());
+                double kenar3 = Double.parseDouble(edtKenar3.getText().toString());
+
+                Ucgen cesitkenarUcgen = new Ucgen(kenar1, kenar2, kenar3);
+                txtSonuc.setText("Çevre: " + cesitkenarUcgen.cevreBul());
+            }
+        });
+    }
+}
+------------------------------------------------------------------------
+package com.example.ss188;
+public class Ucgen {
+
+    private double kenar1;
+    private double kenar2;
+    private double kenar3;
+
+
+    public Ucgen(double kenar) {
+        this.kenar1 = kenar;
+        this.kenar2 = kenar;
+        this.kenar3 = kenar;
+    }
+
+
+    public Ucgen(double kenar1, double kenar2) {
+        this.kenar1 = kenar1;
+        this.kenar2 = kenar1;
+        this.kenar3 = kenar2;
+    }
+
+
+    public Ucgen(double kenar1, double kenar2, double kenar3) {
+        this.kenar1 = kenar1;
+        this.kenar2 = kenar2;
+        this.kenar3 = kenar3;
+    }
+
+
+    public double cevreBul() {
+        return kenar1 + kenar2 + kenar3;
+    }
+}

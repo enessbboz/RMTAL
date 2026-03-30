@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/editTextText_AdiSoyadi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="163dp"
+        android:layout_marginBottom="18dp"
+        android:ems="10"
+        android:hint="Kullanıcı Adı"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/editText_Telefon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_Telefon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Şifre :"
+        app:layout_constraintBottom_toTopOf="@+id/button_DigerActivity"
+        app:layout_constraintStart_toStartOf="@+id/editTextText_AdiSoyadi"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText_AdiSoyadi" />
+
+    <Button
+        android:id="@+id/button_DigerActivity"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="62dp"
+        android:layout_marginEnd="62dp"
+        android:layout_marginBottom="343dp"
+        android:onClick="digerActivity"
+        android:text="DİĞER ACTİVİTY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_Telefon" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+----------------------------------------------------------------
+diger
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".digerActivity">
+
+    <TextView
+        android:id="@+id/textView_AdiSoyadi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="169dp"
+        android:layout_marginTop="198dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_TelefonNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/textView_AdiSoyadi"
+        app:layout_constraintTop_toBottomOf="@+id/textView_AdiSoyadi" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+----------------------------------------------------------------
+package com.example.uyg13ss254;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+import com.example.uyg13ss254.databinding.ActivityMainBinding;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ActivityMainBinding binding;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+    }
+
+    public void digerActivity(View view){
+
+        String adiSoyadi = binding.editTextTextAdiSoyadi.getText().toString();
+        String telefonNo = binding.editTextTelefon.getText().toString();
+
+        Intent intent = new Intent(MainActivity.this, digerActivity.class);
+
+        intent.putExtra("adiSoyadiKey", adiSoyadi);
+        intent.putExtra("telefonNoKey", telefonNo);
+
+        startActivity(intent);
+    }
+}
+----------------------------------------------------------------------------
+package com.example.uyg13ss254;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.example.uyg13ss254.databinding.ActivityDigerBinding;
+
+public class digerActivity extends AppCompatActivity {
+
+    private ActivityDigerBinding binding;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        binding = ActivityDigerBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        Intent intent = getIntent();
+
+        String adiSoyadi = intent.getStringExtra("adiSoyadiKey");
+        String telefonNo = intent.getStringExtra("telefonNoKey");
+
+        binding.textViewAdiSoyadi.setText(adiSoyadi);
+        binding.textViewTelefonNo.setText(telefonNo);
+    }
+}
+--------------------------------------------------------------------------
+package com.example.uyg13ss254;
+
+public class BilgiActivity {
+}

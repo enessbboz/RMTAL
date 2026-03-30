@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editTextCihazAdi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Cihaz Adı"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/editTextKw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Cihaz Gücü (kW)"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/editTextGunlukKullanimSaat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Günlük kullanım saati"
+        android:inputType="numberDecimal" />
+
+    <Button
+        android:id="@+id/buttonHesapla"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hesapla" />
+
+    <TextView
+        android:id="@+id/textViewSonuc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:paddingTop="16dp"/>
+
+</LinearLayout>
+-------------------------------------
+package com.example.a181ss;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Button btnHesapla = findViewById(R.id.buttonHesapla);
+
+        btnHesapla.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                EditText editTextCihazAdi = findViewById(R.id.editTextCihazAdi);
+                EditText editTextKW = findViewById(R.id.editTextKw);
+                EditText editTextSaat = findViewById(R.id.editTextGunlukKullanimSaat);
+                TextView textViewSonuc = findViewById(R.id.textViewSonuc);
+
+                String cihazAdi = editTextCihazAdi.getText().toString();
+                double kw = Double.parseDouble(editTextKW.getText().toString());
+                double saat = Double.parseDouble(editTextSaat.getText().toString());
+
+                ElektrikliCihaz cihaz = new ElektrikliCihaz();
+                cihaz.cihazAdi = cihazAdi;
+                cihaz.cihazKW = kw;
+                cihaz.gunlukSaatKullanim = saat;
+
+                double tuketim = cihaz.aylikTuketim();
+                double ucret = cihaz.aylikUcret();
+
+                textViewSonuc.setText(
+                        "Cihaz: " + cihazAdi +
+                                "\nAylık Tüketim: " + tuketim + " kWh" +
+                                "\nAylık Ücret: " + ucret + " TL"
+                );
+            }
+        });
+    }
+}
+--------------------------------------
+package com.example.a181ss;
+public class ElektrikliCihaz {
+
+    public String cihazAdi;
+    public double cihazKW;
+    public double gunlukSaatKullanim;
+
+
+    public double aylikTuketim() {
+        return cihazKW * gunlukSaatKullanim * 30;
+    }
+
+
+    public double aylikUcret() {
+        return aylikTuketim() * 1.37;
+    }
+}
